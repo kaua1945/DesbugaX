@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<<!DOCTYPE html>
+<html<!DOCTYPE html>
+<html<!DOCTYPE html>
+<html <!DOCTYPE html>
+<html <!DOCTYPE html>
+<html<!DOCTYPE html>
+<html <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DESBUGAX REAL BOOST</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:#050505;
+color:white;
+overflow-x:hidden;
+}
+
+.bg{
+position:fixed;
+width:100%;
+height:100%;
+background:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200');
+background-size:cover;
+background-position:center;
+filter:blur(4px);
+z-index:-1;
+}
+
+.overlay{
+background:rgba(0,0,0,0.82);
+min-height:100vh;
+padding-bottom:100px;
+}
+
+.topo{
+padding:25px;
+text-align:center;
+font-size:32px;
+font-weight:bold;
+animation:rgb 5s infinite;
+background:#111;
+}
+
+@keyframes rgb{
+
+0%{color:#00ff88;}
+25%{color:#00aaff;}
+50%{color:#ff00ff;}
+75%{color:#ff0000;}
+100%{color:#00ff88;}
+
+}
+
+.container{
+padding:20px;
+}
+
+.card{
+background:rgba(20,20,20,0.92);
+padding:20px;
+border-radius:25px;
+margin-bottom:20px;
+backdrop-filter:blur(8px);
+box-shadow:0 0 20px rgba(0,255,100,0.15);
+}
+
+.titulo{
+font-size:22px;
+color:#00ff88;
+margin-bottom:18px;
+}
+
+.info{
+margin-top:10px;
+font-size:18px;
+}
+
+button{
+width:100%;
+padding:16px;
+border:none;
+border-radius:18px;
+background:#00ff88;
+font-size:18px;
+font-weight:bold;
+margin-top:15px;
+}
+
+select{
+width:100%;
+padding:15px;
+border:none;
+border-radius:15px;
+background:#1f1f1f;
+color:white;
+font-size:17px;
+}
+
+.barra{
+width:100%;
+height:18px;
+background:#222;
+border-radius:20px;
+overflow:hidden;
+margin-top:15px;
+}
+
+.progresso{
+width:0%;
+height:100%;
+background:#00ff88;
+transition:1s;
+}
+
+.status{
+margin-top:20px;
+text-align:center;
+color:#bbb;
+font-size:18px;
+}
+
+.item{
+background:#1d1d1d;
+padding:15px;
+border-radius:15px;
+margin-top:12px;
+display:flex;
+justify-content:space-between;
+}
+
+.switch{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:#1d1d1d;
+padding:15px;
+border-radius:15px;
+margin-top:12px;
+}
+
+input[type="checkbox"]{
+width:25px;
+height:25px;
+}
+
+.scanner{
+width:100%;
+height:5px;
+background:#00ff88;
+margin-top:20px;
+animation:scan 2s infinite;
+}
+
+@keyframes scan{
+
+0%{
+transform:translateY(0);
+}
+
+50%{
+transform:translateY(120px);
+}
+
+100%{
+transform:translateY(0);
+}
+
+}
+
+.ads{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+padding:12px;
+background:#111;
+text-align:center;
+color:#00ff88;
+font-weight:bold;
+}
+
+#loading{
+position:fixed;
+width:100%;
+height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999;
+font-size:25px;
+color:#00ff88;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+
+<h1>DESBUGAX</h1>
+<p>INICIANDO BOOSTER...</p>
+
+</div>
+
+<div class="bg"></div>
+
+<div class="overlay">
+
+<div class="topo">
+DESBUGAX REAL BOOST
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<div class="titulo">
+ESCOLHA O JOGO
+</div>
+
+<select id="jogo">
+
+<option>Free Fire</option>
+<option>Roblox</option>
+<option>eFootball</option>
+<option>Call of Duty Mobile</option>
+<option>PUBG Mobile</option>
+<option>Minecraft</option>
+
+</select>
+
+<button onclick="abrirJogo()">
+ABRIR JOGO
+</button>
+
+</div>
+
+<div class="card">
+
+<div class="titulo">
+OTIMIZAÇÃO INTELIGENTE
+</div>
+
+<div class="info">
+RAM: <span id="ram">2.0 GB</span>
+</div>
+
+<div class="info">
+FPS: <span id="fps">42 FPS</span>
+</div>
+
+<div class="info">
+PING: <span id="ping">58 MS</span>
+</div>
+
+<div class="info">
+BATERIA: <span id="bateria">76%</span>
+</div>
+
+<div class="info">
+ARMAZENAMENTO: <span id="armazenamento">48 GB</span>
+</div>
+
+<div class="barra">
+<div class="progresso" id="barra"></div>
+</div>
+
+<div class="scanner"></div>
+
+<button onclick="otimizar()">
+INICIAR OTIMIZAÇÃO
+</button>
+
+<div class="status" id="status">
+Sistema aguardando...
+</div>
+
+<div class="item">
+<span>Cache Limpo</span>
+<span id="cache">0 MB</span>
+</div>
+
+<div class="item">
+<span>Apps Fechados</span>
+<span id="apps">0</span>
+</div>
+
+<div class="item">
+<span>CPU Otimizada</span>
+<span id="cpu">0%</span>
+</div>
+
+<div class="item">
+<span>Temperatura</span>
+<span id="temp">39°C</span>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="titulo">
+CONFIGURAÇÕES GAMER
+</div>
+
+<div class="switch">
+<span>Modo Gamer</span>
+<input type="checkbox">
+</div>
+
+<div class="switch">
+<span>Ultra FPS</span>
+<input type="checkbox">
+</div>
+
+<div class="switch">
+<span>Reduzir Lag</span>
+<input type="checkbox">
+</div>
+
+<div class="switch">
+<span>Bloquear Notificações</span>
+<input type="checkbox">
+</div>
+
+<div class="switch">
+<span>Forçar GPU</span>
+<input type="checkbox">
+</div>
+
+<div class="switch">
+<span>Desempenho Extremo</span>
+<input type="checkbox">
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="titulo">
+RESOLUÇÃO E DPI
+</div>
+
+<select id="resolucao">
+
+<option>1280x720</option>
+<option>1440x720</option>
+<option>1600x720</option>
+<option>1920x1080</option>
+
+</select>
+
+<button onclick="mudarResolucao()">
+APLICAR RESOLUÇÃO
+</button>
+
+<div class="status" id="statusResolucao">
+Resolução padrão
+</div>
+
+<br>
+
+<div class="info">
+DPI: <span id="dpiValor">600</span>
+</div>
+
+<input type="range"
+min="300"
+max="1200"
+value="600"
+id="dpi"
+oninput="atualizarDpi()">
+
+<button onclick="aplicarDpi()">
+APLICAR DPI
+</button>
+
+<div class="status" id="statusDpi">
+DPI padrão
+</div>
+
+</div>
+
+</div>
+
+<div class="ads">
+ANÚNCIO
+</div>
+
+</div>
+
+<script>
+
+setTimeout(() => {
+
+document.getElementById("loading").style.display = "none";
+
+},2500);
+
+function otimizar(){
+
+navigator.vibrate(200);
+
+let status = document.getElementById("status");
+let barra = document.getElementById("barra");
+
+status.innerHTML = "Limpando cache...";
+barra.style.width = "20%";
+
+setTimeout(() => {
+
+document.getElementById("cache").innerHTML = "1.7 GB";
+document.getElementById("apps").innerHTML = "22";
+
+status.innerHTML = "Fechando apps em segundo plano...";
+barra.style.width = "45%";
+
+},1500);
+
+setTimeout(() => {
+
+document.getElementById("cpu").innerHTML = "98%";
+document.getElementById("temp").innerHTML = "27°C";
+
+status.innerHTML = "Otimizando GPU...";
+barra.style.width = "75%";
+
+},3000);
+
+setTimeout(() => {
+
+document.getElementById("ram").innerHTML = "7.2 GB";
+document.getElementById("fps").innerHTML = "120 FPS";
+document.getElementById("ping").innerHTML = "9 MS";
+document.getElementById("armazenamento").innerHTML = "63 GB";
+
+status.innerHTML = "OTIMIZAÇÃO COMPLETA";
+barra.style.width = "100%";
+
+},5000);
+
+}
+
+function abrirJogo(){
+
+let jogo = document.getElementById("jogo").value;
+
+alert("Abrindo " + jogo + "...");
+
+}
+
+function atualizarDpi(){
+
+let dpi = document.getElementById("dpi").value;
+
+document.getElementById("dpiValor").innerHTML = dpi;
+
+}
+
+function aplicarDpi(){
+
+let dpi = document.getElementById("dpi").value;
+
+localStorage.setItem("dpi", dpi);
+
+document.getElementById("statusDpi").innerHTML =
+"DPI alterado para " + dpi;
+
+}
+
+function mudarResolucao(){
+
+let resolucao =
+document.getElementById("resolucao").value;
+
+document.getElementById("statusResolucao").innerHTML =
+"Resolução aplicada: " + resolucao;
+
+}
+
+</script>
+
+</body>
+</html>
