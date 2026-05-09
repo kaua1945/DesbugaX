@@ -1,1 +1,233 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DESBUGAX G3 - BLACK OPS ELITE</title>
+    <style>
+        :root {
+            --neon: #00ff88;
+            --danger: #ff003c;
+            --secondary: #00e1ff;
+            --warning: #ffcc00;
+            --dark-bg: #030303;
+            --panel-bg: rgba(5, 5, 5, 0.98);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Courier New', Courier, monospace; }
+        
+        body { 
+            background: var(--dark-bg); 
+            color: var(--neon); 
+            overflow-x: hidden;
+            text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+        }
+
+        #matrix { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.15; }
+
+        .container { padding: 15px; max-width: 450px; margin: auto; padding-bottom: 80px; }
+
+        .header {
+            padding: 20px 10px; text-align: center; border-bottom: 2px solid var(--neon);
+            margin-bottom: 20px; text-transform: uppercase; letter-spacing: 5px;
+            background: rgba(0,0,0,0.8);
+        }
+
+        .ultra-boost {
+            width: 100%; padding: 25px; background: transparent;
+            border: 2px solid var(--neon); color: var(--neon);
+            font-weight: 900; font-size: 18px; cursor: pointer;
+            position: relative; overflow: hidden; transition: 0.3s;
+            box-shadow: inset 0 0 15px var(--neon), 0 0 15px var(--neon);
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            margin-bottom: 25px;
+        }
+        .ultra-boost:active { background: var(--neon); color: #000; }
+
+        .hz-box {
+            border: 1px solid var(--neon); padding: 20px; border-radius: 5px;
+            background: var(--panel-bg); text-align: center; margin-bottom: 20px;
+            position: relative;
+        }
+        .hz-box::before { content: "CORE_CLOCK_SYNC"; position: absolute; top: -10px; left: 10px; background: var(--dark-bg); padding: 0 5px; font-size: 10px; color: var(--secondary); }
+        .hz-val { font-size: 55px; font-weight: 900; display: block; }
+
+        .card { 
+            background: var(--panel-bg); border: 1px solid #1a1a1a; 
+            padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--neon);
+        }
+        .section-title { font-size: 11px; margin-bottom: 12px; color: #fff; background: #111; padding: 4px 8px; display: inline-block; border: 1px solid #333; }
+
+        .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 12px; }
+
+        .switch { width: 38px; height: 18px; appearance: none; background: #222; border: 1px solid #444; position: relative; cursor: pointer; transition: 0.3s; }
+        .switch:checked { background: var(--neon); border-color: var(--neon); box-shadow: 0 0 10px var(--neon); }
+        .switch:checked::after { left: 22px; background: #000; }
+        .switch::after { content: ''; position: absolute; width: 14px; height: 14px; background: #666; top: 1px; left: 2px; transition: 0.2s; }
+
+        input[type=range] { appearance: none; width: 100%; background: #111; height: 2px; margin: 15px 0; }
+        input[type=range]::-webkit-slider-thumb { appearance: none; width: 14px; height: 14px; background: var(--neon); cursor: pointer; border-radius: 2px; box-shadow: 0 0 8px var(--neon); }
+
+        .terminal { background: #000; padding: 12px; font-size: 10px; height: 110px; overflow-y: auto; border: 1px solid #1a1a1a; color: #0f0; margin-bottom: 15px; box-shadow: inset 0 0 10px rgba(0,255,0,0.1); }
+
+        .app-list { display: flex; flex-direction: column; gap: 8px; }
+        .app-btn {
+            background: #080808; border: 1px solid #222; color: #aaa; width: 100%; padding: 14px;
+            text-align: left; font-size: 11px; cursor: pointer; display: flex; justify-content: space-between;
+            transition: 0.2s;
+        }
+        .app-btn:hover { border-color: var(--neon); color: #fff; background: rgba(0,255,136,0.05); }
+        .app-btn span { color: var(--neon); font-weight: bold; font-size: 10px; }
+
+        #injecting {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98);
+            z-index: 10000; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .loader-bar { width: 200px; height: 2px; background: #111; position: relative; margin-top: 20px; overflow: hidden; }
+        .loader-fill { width: 0%; height: 100%; background: var(--neon); position: absolute; box-shadow: 0 0 10px var(--neon); transition: 0.1s; }
+    </style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<header class="header">
+    <h1>G3 BLACK OPS <span style="color: var(--danger); font-size: 12px;">ELITE</span></h1>
+</header>
+
+<main class="container">
+
+    <button class="ultra-boost" onclick="fullClean()">>>> INICIALIZAR SYSTEM PURGE <<<</button>
+
+    <div class="hz-box">
+        <span class="hz-val" id="hzDisp">60</span>
+        <span style="font-size: 9px; letter-spacing: 2px; color: #888;">FORCED_HZ_ACTIVE</span>
+    </div>
+
+    <div class="card" style="border-left-color: var(--danger);">
+        <div class="section-title" style="background: #440000;">AIM_ASSIST_PRO (REGEDIT)</div>
+        <div class="row"><span>AUXÍLIO DE MIRA (AIMLOCK)</span> <input type="checkbox" class="switch" id="aimlock" onchange="log('Aimlock: ' + (this.checked ? 'ACTIVE' : 'OFF'))"></div>
+        <div class="row"><span>ESTABILIZADOR DE FPS/MIRA</span> <input type="checkbox" class="switch" checked></div>
+        <div class="row"><span>AJUSTE DE DPI SCRIPT</span> <span id="dpiVal" style="color: var(--danger);">800</span></div>
+        <input type="range" min="400" max="1800" step="10" value="800" oninput="document.getElementById('dpiVal').innerText = this.value; if(this.value > 1200) log('DPI Crítica: ' + this.value)">
+        <div class="row"><span>DEADZONE CALIBRATION</span> <input type="checkbox" class="switch" checked></div>
+    </div>
+
+    <div class="card">
+        <div class="section-title">PERFORMANCE_KERNEL</div>
+        <div class="row"><span>SINCRONIZAR 90HZ</span> <input type="checkbox" class="switch" id="h90" onchange="setHz(90)"></div>
+        <div class="row"><span>DESBLOQUEAR 120HZ</span> <input type="checkbox" class="switch" id="h120" onchange="setHz(120)"></div>
+        <div class="row"><span>OVERCLOCK DA GPU</span> <input type="checkbox" class="switch" onchange="log('GPU Overclock: ' + (this.checked ? 'ON' : 'OFF'))"></div>
+        <div class="row"><span>SENSIBILIDADE TOUCH</span> <span id="sensiVal" style="color: var(--secondary);">1.0x</span></div>
+        <input type="range" min="1.0" max="4.0" step="0.1" value="1.0" oninput="document.getElementById('sensiVal').innerText = this.value + 'x'; log('Sensi ajustada: ' + this.value)">
+    </div>
+
+    <div class="card" style="border-left-color: var(--warning);">
+        <div class="section-title" style="background: #332200;">CLEAN_MODULES</div>
+        <div class="row"><span>LIMPAR CACHE PROFUNDO</span> <input type="checkbox" class="switch" checked></div>
+        <div class="row"><span>HIBERNAR APPS EM 2º PLANO</span> <input type="checkbox" class="switch" checked></div>
+        <div class="row"><span>OTIMIZAR PING (DNS)</span> <input type="checkbox" class="switch" checked></div>
+    </div>
+
+    <div class="terminal" id="term">
+        > system_v4: inicializando...<br>
+        > regedit_ballistics: carregado.<br>
+        > aguardando comando...
+    </div>
+
+    <div class="card" style="border-left-color: var(--secondary);">
+        <div class="section-title" style="background: #002233;">EXECUTION_TARGETS</div>
+        <div class="app-list">
+            <button class="app-btn" onclick="openGame('Free Fire', 'com.dts.freefireth')">FREE FIRE <span>[INJETAR]</span></button>
+            <button class="app-btn" onclick="openGame('Free Fire MAX', 'com.dts.freefiremax')">FREE FIRE MAX <span>[INJETAR]</span></button>
+            <button class="app-btn" onclick="openGame('Roblox', 'com.roblox.client')">ROBLOX <span>[INJETAR]</span></button>
+            <button class="app-btn" onclick="openGame('Call of Duty', 'com.activision.callofduty.shooter')">COD MOBILE <span>[INJETAR]</span></button>
+        </div>
+    </div>
+
+</main>
+
+<div id="injecting">
+    <h2 id="injMsg" style="letter-spacing: 5px; font-size: 16px;">EXECUTANDO...</h2>
+    <div class="loader-bar"><div class="loader-fill" id="loadFill"></div></div>
+    <p id="subMsg" style="font-size: 9px; margin-top: 15px; color: var(--secondary);"></p>
+</div>
+
+<script>
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.height = window.innerHeight; canvas.width = window.innerWidth;
+    const chars = "01"; const drops = [];
+    const fontSize = 15; const columns = canvas.width/fontSize;
+    for(let x=0; x<columns; x++) drops[x] = 1;
+    function drawMatrix() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#0f0"; ctx.font = fontSize + "px arial";
+        for(let i=0; i<drops.length; i++){
+            const text = chars.charAt(Math.floor(Math.random()*chars.length));
+            ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+            if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        }
+    }
+    setInterval(drawMatrix, 35);
+
+    function log(m) {
+        const t = document.getElementById('term');
+        t.innerHTML += `> ${m}<br>`;
+        t.scrollTop = t.scrollHeight;
+    }
+
+    function setHz(val) {
+        const h90 = document.getElementById('h90');
+        const h120 = document.getElementById('h120');
+        const disp = document.getElementById('hzDisp');
+        let t = 60;
+        if(val === 90 && h90.checked) { h120.checked = false; t = 90; }
+        else if(val === 120 && h120.checked) { h90.checked = false; t = 120; }
+        log(`Clock modificado para ${t}Hz`);
+        disp.innerText = t;
+    }
+
+    function fullClean() {
+        const overlay = document.getElementById('injecting');
+        const fill = document.getElementById('loadFill');
+        overlay.style.display = 'flex';
+        
+        const msgs = ["SCANNING RAM...", "INJECTING REGEDIT...", "CALIBRATING AIM...", "DPI SETTINGS FIXED!", "SYSTEM READY!"];
+        let i = 0;
+        let progress = 0;
+
+        const itv = setInterval(() => {
+            if(progress < 100) {
+                progress += 2;
+                fill.style.width = progress + "%";
+                if(progress % 20 === 0) {
+                    document.getElementById('subMsg').innerText = msgs[i];
+                    log(msgs[i]);
+                    i++;
+                }
+            } else {
+                clearInterval(itv);
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    fill.style.width = "0%";
+                    log("--- OTIMIZAÇÃO COMPLETA ---");
+                }, 500);
+            }
+        }, 40);
+    }
+
+    function openGame(nome, pkg) {
+        const aim = document.getElementById('aimlock').checked;
+        log(`Alvo: ${nome}`);
+        if(aim) log(`Injetando AimAssist Script em ${pkg}...`);
+        log(`Injetando payload em ${pkg}...`);
+        setTimeout(() => {
+            window.location.href = `intent://scan/#Intent;scheme=android-app;package=${pkg};end`;
+        }, 1200);
+    }
+</script>
+</body>
+</html>
